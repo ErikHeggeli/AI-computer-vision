@@ -1,13 +1,19 @@
 const VIDEO = document.getElementById('webcam');
 const STATUS = document.getElementById('status');
+const MESSAGE = document.getElementById('message');
+const PREDICT = document.getElementById('predict');
 const modelUrl = '/model/model.json';
+const numObjects = 12
 const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const CLASS_NAMES = ["scallop", "watering can", "bomb", "stapler", "smoke detector", "dinosaur", "sunglasses", "spoon", "foraminifera", "football boot", "headset", "bottle", "coat rack", "tape", "teddy bear", "ruler", "chainsaw", "computer mouse", "flag", "sword", "ipad"];
-
+const TIMELIMIT = 15000;
 let model;
 let mobilenet;
 let videoPlaying = false;
+let currentIdx = -1;
+let timer;
+let countdown;
 
 const EMOJI_MAP = {
   "scallop": "/img/emoji/scallop.svg", 
@@ -67,14 +73,15 @@ function enableCam() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const constraints = {
             video: true,
-            width: 640,
-            height: 480
+            width: 1080,
+            height: 1920
         };
 
         navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
             VIDEO.srcObject = stream;
             VIDEO.addEventListener('loadeddata', function() {
                 videoPlaying = true;
+                selectRandomObject();
                 gameLoop();
             });
         }).catch(function(error) {
@@ -85,23 +92,69 @@ function enableCam() {
     }
 }
 
+function selectRandomObject() {
+    currentIdx = Math.floor(Math.random() * CLASS_NAMES.length);
+    const targetName = CLASS_NAMES[currentIdx];
+    const emojiSrc = EMOJI_MAP[targetName] || "img/emoji/unknown.png";
+    STATUS.innerHTML = `Find <img src="${emojiSrc}" alt="${targetName}" class="emoji-image">`;
+    MESSAGE.innerHTML = "";
+    
+    startTimer();
+}
+
+function startTimer() {
+    let timeLeft = 15; // 15 seconds countdown
+    document.getElementById('timer').innerHTML = timeLeft; // Display the starting time
+
+    // Clear any existing timers and intervals
+    clearTimeout(timer);
+    clearInterval(countdown);
+
+    // Update the timer every second
+    countdown = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').innerHTML = timeLeft; // Update the display
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown); // Stop the interval
+            showTimeoutMessage(); // Show timeout message and handle redirection
+        }
+    }, 1000);
+
+    // Set a timeout to clear the interval and handle timeout event
+    timer = setTimeout(() => {
+        clearInterval(countdown); // Ensure the interval is cleared if not already
+    }, TIMELIMIT); // 15000 milliseconds = 15 seconds
+}
+
+function showTimeoutMessage() {
+    MESSAGE.innerHTML = 'Time is up!';
+    setTimeout(() => {
+        window.location.href = 'index.html'; // Redirect to the index page after 3 seconds
+    }, 3000);
+}
+
 function gameLoop() {
     if (videoPlaying && mobilenet && model) {
-      tf.tidy(() => {
-          const videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
-          const resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH], true);
-          const features = mobilenet.predict(resizedTensorFrame.expandDims());
-          const prediction = model.predict(features).squeeze();
-          const highestIndex = prediction.argMax().arraySync();
-          const predictionArray = prediction.arraySync();
+        tf.tidy(() => {
+            const videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
+            const resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH], true);
+            const features = mobilenet.predict(resizedTensorFrame.expandDims());
+            const prediction = model.predict(features).squeeze();
+            const highestIndex = prediction.argMax().arraySync();
+            const predictionArray = prediction.arraySync();
+            const className = CLASS_NAMES[highestIndex];
+            const emojiSrc = EMOJI_MAP[className];
 
-          const className = CLASS_NAMES[highestIndex];
-          const emojiSrc = EMOJI_MAP[className] || "img/emoji/unknown.png"; // Default to an 'unknown' image if no match found
-          STATUS.innerHTML = `Prediction: ${className} <img src="${emojiSrc}" alt="${className}" style="width:24px;height:24px;"> with ${Math.floor(predictionArray[highestIndex] * 100)}% confidence`;
-      });
-
-      window.requestAnimationFrame(gameLoop);
-  }
+            PREDICT.innerHTML = `Prediction: ${className} <img src="${emojiSrc}" alt="${className}" style="width:24px;height:24px;"> with ${Math.floor(predictionArray[highestIndex] * 100)}% confidence`;
+            if (Math.floor(predictionArray[highestIndex] * 100) >= 98) {  
+                clearTimeout(timer);         
+                MESSAGE.innerHTML = `Congratulations! You found ${className} <img src="${emojiSrc}" alt="${className}" style="width:24px;height:24px;">`;
+                setTimeout(selectRandomObject, 3000);
+            }
+        });
+    }
+    window.requestAnimationFrame(gameLoop);
 }
 
 // Initialize models and start the application
