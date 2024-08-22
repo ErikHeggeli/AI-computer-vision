@@ -3,17 +3,20 @@ const STATUS = document.getElementById('status');
 const MESSAGE = document.getElementById('message');
 const PREDICT = document.getElementById('predict');
 const modelUrl = '/model/model.json';
-const numObjects = 12
+const totalObjects = 10
 const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const CLASS_NAMES = ["scallop", "watering can", "bomb", "stapler", "smoke detector", "dinosaur", "sunglasses", "spoon", "foraminifera", "football boot", "headset", "bottle", "coat rack", "tape", "teddy bear", "ruler", "chainsaw", "computer mouse", "flag", "sword", "ipad"];
 const TIMELIMIT = 15000;
-let model;
-let mobilenet;
+let model, mobilenet;
 let videoPlaying = false;
 let currentIdx = -1;
-let timer;
-let countdown;
+let timer, countdown;
+let texts;
+let objectsToFind = [];
+let objectsFound = [];
+let foundCount = 0;
+let canCheck = true;
 
 const EMOJI_MAP = {
   "scallop": "/img/emoji/scallop.svg", 
@@ -39,6 +42,126 @@ const EMOJI_MAP = {
   "ipad": "/img/emoji/ipad.svg"
 };
 
+function selectRandomObjects() {
+    objectsToFind = [];
+    let availableIndices = [...CLASS_NAMES.keys()]; // Create an array of indices
+
+    for (let i = 0; i < totalObjects; i++) {
+        let randomIndex = Math.floor(Math.random() * availableIndices.length);
+        objectsToFind.push(CLASS_NAMES[availableIndices[randomIndex]]);
+        availableIndices.splice(randomIndex, 1); // Remove the used index
+    }
+
+    foundCount = 0; // Reset found count
+    selectNextObject();
+}
+
+const gameTranslations = {
+    en: {
+        find: "Find ",
+        congratulations: "Congratulations! You found ",
+        timeUp: "Time is up!",
+        timer: "Timer",
+        objects: {
+            "scallop": "Scallop", 
+            "watering can": "Watering Can", 
+            "bomb": "Bomb", 
+            "stapler": "Stapler", 
+            "smoke detector": "Smoke Detector", 
+            "dinosaur": "Dinosaur", 
+            "sunglasses": "Sunglasses", 
+            "spoon": "Spoon", 
+            "foraminifera": "Foraminifera", 
+            "football boot":"Fotball Boot", 
+            "headset": "Headset", 
+            "bottle": "Bottle", 
+            "coat rack": "Coat Rack", 
+            "tape": "Tape", 
+            "teddy bear": "Teddy Bear", 
+            "ruler": "Ruler", 
+            "chainsaw": "Chainsaw", 
+            "computer mouse": "Computer Mouse", 
+            "flag": "Flag", 
+            "sword": "Sword", 
+            "ipad" : "Ipad"
+        }
+    },
+    no: {
+        find: "Finn ",
+        congratulations: "Gratulerer! Du fant ",
+        timeUp: "Tiden er ute!",
+        timer: "Tidtaker",
+        objects: {
+            "scallop": "Kamskjell", 
+            "watering can": "Vannkanne", 
+            "bomb": "Bombe", 
+            "stapler": "Stiftemaskin", 
+            "smoke detector": "Brannalarm", 
+            "dinosaur": "Dinosaur", 
+            "sunglasses": "Solbriller", 
+            "spoon": "Skje", 
+            "foraminifera": "Foraminifera", 
+            "football boot":"Fotballsko", 
+            "headset": "Hodetelefoner", 
+            "bottle": "Flaske", 
+            "coat rack": "Knagg", 
+            "tape": "Teip", 
+            "teddy bear": "Bamse", 
+            "ruler": "Linjal", 
+            "chainsaw": "Motorsag", 
+            "computer mouse": "Datamus", 
+            "flag": "Flagg", 
+            "sword": "Sverd", 
+            "ipad" : "Ipad"
+        }
+    },
+    sami: {
+        find: "Etsi ",
+        congratulations: "Onnittelut! Löysit ",
+        timeUp: "Aika loppui!",
+        timer: "Ajastin",
+        objects: {
+            "scallop": "Scallop",
+            "watering can": "Veahkavássi",  
+            "bomb": "Bomba",
+            "stapler": "Niitegirji", 
+            "smoke detector": "Savvončuovga",  
+            "dinosaur": "Dinosaurra",
+            "sunglasses": "Beaivvášlasit",  
+            "spoon": "Cuohppan", 
+            "foraminifera": "Foraminifera",  
+            "football boot": "Fotbállčižžat",  
+            "headset": "Headset",  
+            "bottle": "Buttá", 
+            "coat rack": "Gákteláger",  
+            "tape": "Teipi",  
+            "teddy bear": "Mánná gáhkku",  
+            "ruler": "Soddi",  
+            "chainsaw": "Chainsaw",  
+            "computer mouse": "Dáhtamášinmuoššu", 
+            "flag": "Leavga", 
+            "sword": "Gárri",  
+            "ipad": "Ipad"  
+        }
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const lang = new URLSearchParams(window.location.search).get('lang') || 'en';
+    localStorage.setItem('lastLanguageUsed', lang);
+    updateGameLanguage(lang);
+    initializeModels(); // Start the game initialization
+});
+
+function updateGameLanguage(lang) {
+    texts = gameTranslations[lang]; // Update the global texts variable
+    
+    if (currentIdx !== -1) {
+        updateObjectUI(); // This will refresh the display with the new language
+    }
+}
+
+window.updateGameLanguage = updateGameLanguage; 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
       navigator.serviceWorker.register('/service.js').then(function(registration) {
@@ -81,39 +204,50 @@ function enableCam() {
             VIDEO.srcObject = stream;
             VIDEO.addEventListener('loadeddata', function() {
                 videoPlaying = true;
-                selectRandomObject();
-                gameLoop();
+                selectRandomObjects(); // Initialize the list of objects to find
+                startTimer(); // Start the timer
+                gameLoop(); // Start the game loop
             });
         }).catch(function(error) {
             console.error('Camera access denied:', error);
+            MESSAGE.innerHTML = "Failed to access the camera.";
         });
     } else {
         console.warn('getUserMedia() is not supported by your browser');
+        MESSAGE.innerHTML = "Your browser does not support accessing the camera.";
     }
 }
 
-function selectRandomObject() {
-    currentIdx = Math.floor(Math.random() * CLASS_NAMES.length);
-    const targetName = CLASS_NAMES[currentIdx];
-    const emojiSrc = EMOJI_MAP[targetName] || "img/emoji/unknown.png";
-    STATUS.innerHTML = `Find <img src="${emojiSrc}" alt="${targetName}" class="emoji-image">`;
-    MESSAGE.innerHTML = "";
-    
-    startTimer();
+function selectNextObject() {
+    if (objectsToFind.length > 0) {
+        currentIdx = CLASS_NAMES.indexOf(objectsToFind.shift()); // Get the next object
+        updateObjectUI();
+        startTimer();
+    } else {
+        showWinScreen(); // Show win screen if all objects are found
+    }
 }
 
-function startTimer() {
-    let timeLeft = 15; // 15 seconds countdown
-    document.getElementById('timer').innerHTML = timeLeft; // Display the starting time
+function updateObjectUI() {
+    const targetName = CLASS_NAMES[currentIdx];
+    const translatedName = texts.objects[targetName];
+    const emojiSrc = EMOJI_MAP[targetName]; // || "img/emoji/unknown.png";
+    STATUS.innerHTML = `${texts.find} <img src="${emojiSrc}" alt="${translatedName}" class="emoji-image">`;
+    MESSAGE.innerHTML = ""; // Clear message
+}
 
-    // Clear any existing timers and intervals
-    clearTimeout(timer);
-    clearInterval(countdown);
+
+function startTimer() {
+    clearTimeout(timer); // Clear any existing timeout
+    clearInterval(countdown); // Clear any existing interval
+
+    let timeLeft = 15; // 15 seconds countdown
+    document.getElementById('timeLeft').textContent = timeLeft; // Initialize the countdown display
 
     // Update the timer every second
     countdown = setInterval(() => {
         timeLeft--;
-        document.getElementById('timer').innerHTML = timeLeft; // Update the display
+        document.getElementById('timeLeft').textContent = timeLeft; // Update the display
 
         if (timeLeft <= 0) {
             clearInterval(countdown); // Stop the interval
@@ -128,14 +262,35 @@ function startTimer() {
 }
 
 function showTimeoutMessage() {
-    MESSAGE.innerHTML = 'Time is up!';
+    MESSAGE.innerHTML = `${texts.timeUp}`;
     setTimeout(() => {
-        window.location.href = 'index.html'; // Redirect to the index page after 3 seconds
+        const lang = localStorage.getItem('lastLanguageUsed') || 'en';
+        window.location.href = `index.html?lang=${lang}`; // Redirect to the index page after 3 seconds
     }, 3000);
+}
+function showWinScreen() {
+    const foundObjects = objectsFound.map(obj => ({
+        name: obj,
+        emoji: EMOJI_MAP[obj]
+    }));
+    localStorage.setItem('foundObjects', JSON.stringify(foundObjects));
+    console.log("Storing found objects:", foundObjects);
+    const lang = localStorage.getItem('lastLanguageUsed') || 'en';
+    window.location.href = `win.html?lang=${lang}`; // Redirect to the win page
+}
+
+
+function clearMessage() {
+    MESSAGE.innerHTML = ""; // Clear the message content
+}
+
+function showMessage(message) {
+    MESSAGE.innerHTML = message; // Set new message content
+    MESSAGE.style.display = 'block'; // Ensure the element is visible
 }
 
 function gameLoop() {
-    if (videoPlaying && mobilenet && model) {
+    if (videoPlaying && mobilenet && model && canCheck) {
         tf.tidy(() => {
             const videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
             const resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH], true);
@@ -144,18 +299,30 @@ function gameLoop() {
             const highestIndex = prediction.argMax().arraySync();
             const predictionArray = prediction.arraySync();
             const className = CLASS_NAMES[highestIndex];
+            const translatedName = texts.objects[className];
             const emojiSrc = EMOJI_MAP[className];
-
-            PREDICT.innerHTML = `Prediction: ${className} <img src="${emojiSrc}" alt="${className}" style="width:24px;height:24px;"> with ${Math.floor(predictionArray[highestIndex] * 100)}% confidence`;
-            if (Math.floor(predictionArray[highestIndex] * 100) >= 98) {  
+            PREDICT.innerHTML = `Prediction: ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:24px;height:24px;"> with ${Math.floor(predictionArray[highestIndex] * 100)}% confidence`;
+            if (Math.floor(predictionArray[highestIndex] * 100) >= 99 && highestIndex === currentIdx && canCheck) {
+                objectsFound.push(className);
+                foundCount++;
+                console.log(foundCount);  
+                canCheck = false; // Prevent further checks until the next object is ready
                 clearTimeout(timer);         
-                MESSAGE.innerHTML = `Congratulations! You found ${className} <img src="${emojiSrc}" alt="${className}" style="width:24px;height:24px;">`;
-                setTimeout(selectRandomObject, 3000);
+                clearInterval(countdown);
+                MESSAGE.innerHTML = `${texts.congratulations} ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:120px;height:120px;">`;
+                showMessage(`${texts.congratulations} ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:120px;height:120px;">`);
+                setTimeout(clearMessage, 3000);
+                if (foundCount >= totalObjects) {
+                    setTimeout(showWinScreen, 3000);
+                } else {
+                    setTimeout(() => {
+                        selectNextObject();
+                        canCheck = true; // Re-enable checking when the next object is ready
+                    }, 3000);
+                }
             }
         });
     }
     window.requestAnimationFrame(gameLoop);
 }
 
-// Initialize models and start the application
-initializeModels();

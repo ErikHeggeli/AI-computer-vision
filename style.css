@@ -42,17 +42,27 @@ button {
 }
 
 #status {
-  font-size:120px;
-  color:rgb(56, 126, 50)
+  position: fixed;      /* Fixed position relative to the viewport */
+  top: 0;               /* Align to the top of the viewport */
+  left: 50%;            /* Center horizontally */
+  transform: translateX(-50%); /* Offset the element to truly center it horizontally */
+  z-index: 1000;        /* High z-index to ensure it's on top */
+  font-size: 120px;
+  color: rgb(56, 126, 50);
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  padding: 20px;        /* Some padding around the text */
+  border-radius: 10px;  /* Rounded corners */
+  text-align: center;   /* Center the text inside the element */
 }
 
 #message {
+  /*display:none;*/
   position: fixed;      /* Fixed position relative to the viewport */
   top: 50%;             /* Position at the center vertically */
   left: 50%;            /* Position at the center horizontally */
   transform: translate(-50%, -50%); /* Offset the element to truly center it */
   z-index: 1000;        /* High z-index to ensure it's on top */
-  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  /*background: rgba(0, 0, 0, 0.8); Semi-transparent black background */
   color: rgb(255, 255, 255);         /* White text color */
   padding: 20px;        /* Some padding around the text */
   border-radius: 10px;  /* Rounded corners */
@@ -69,4 +79,27 @@ button {
 .emoji-image {
   width: 10vw;  /* 10% of the viewport width */
   height: 10vw; /* 10% of the viewport height */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+#foundObjectsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+#foundObjectsList li {
+  margin: 10px;
+  font-size: 100px;
+  color: #3ff52e;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
 }
