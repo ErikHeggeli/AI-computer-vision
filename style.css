@@ -1,7 +1,9 @@
 body {
-  font-family: helvetica, arial, sans-serif;
-  margin: 2em;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevents scrollbars from appearing */
   background-color: black;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 h1 {
@@ -22,13 +24,13 @@ h1 {
 }
 
 video {
-  clear: both;
-  display: block;
-  margin: 10px;
-  background: #000000;
-  width: 1080x;
-  height: 1920px;
-  border: aliceblue;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover; /* Ensures the video covers the full area without distortion */
+  z-index: 1; /* Ensures it stays at the back of other content */
 }
 
 button {
@@ -43,10 +45,10 @@ button {
 
 #status {
   position: fixed;      /* Fixed position relative to the viewport */
-  top: 0;               /* Align to the top of the viewport */
+  top: 20px;               /* Align to the top of the viewport */
   left: 50%;            /* Center horizontally */
   transform: translateX(-50%); /* Offset the element to truly center it horizontally */
-  z-index: 1000;        /* High z-index to ensure it's on top */
+  z-index: 1002;        /* High z-index to ensure it's on top */
   font-size: 120px;
   color: rgb(56, 126, 50);
   background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
@@ -61,7 +63,7 @@ button {
   top: 50%;             /* Position at the center vertically */
   left: 50%;            /* Position at the center horizontally */
   transform: translate(-50%, -50%); /* Offset the element to truly center it */
-  z-index: 1000;        /* High z-index to ensure it's on top */
+  z-index: 1002;        /* High z-index to ensure it's on top */
   /*background: rgba(0, 0, 0, 0.8); Semi-transparent black background */
   color: rgb(255, 255, 255);         /* White text color */
   padding: 20px;        /* Some padding around the text */
