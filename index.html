@@ -62,9 +62,9 @@
         <h1 id="welcome">EMOJI HUNT</h1>
         <img src="img/instructions.png" alt="Instructions" class="instruction-img">
         <div class="descriptions">
-            <h1 id="description1" class="description">FIND THE OBJECT THAT LOOKS LIKE THE EMOJI</h1>
-            <h1 id="description2" class="description">Draw the parts you would like to draw</h1>
-            <h1 id="description3" class="description">The AI will handle the rest. Voila!</h1>
+            <h1 id="description1" class="description">Find the object that looks like the emoji</h1>
+            <h1 id="description2" class="description">Hold the object in front of the camera</h1>
+            <h1 id="description3" class="description">Find all 10 objects before the time runs out!</h1>
         </div>
         
         <a href="game.html?lang=en" class="play-button" id="play-link">
@@ -82,16 +82,16 @@
         const translations = {
             'en': {
                 'welcome': 'EMOJI HUNT',
-                'description1': 'Choose what to draw',
-                'description2': 'Draw the parts you would like to draw',
-                'description3': 'The AI will handle the rest. Voila!',
+                'description1': 'Find the object that looks like the emoji',
+                'description2': 'Hold the object in front of the camera',
+                'description3': 'Find all 10 objects before the time runs out!',
                 'button': 'Press the button to play'
             },
             'no': {
                 'welcome': 'EMOJI JAKT',
-                'description1': 'Finn Objektet som ligner på emojien',
-                'description2': 'Tegn en del av tegningen du ønsker å lage',
-                'description3': 'KIen tar seg av resten. Voila!',
+                'description1': 'Finn gjenstanden som ligner på emojien',
+                'description2': 'Hold gjenstanden foran kameraet',
+                'description3': 'Finn alle gjenstandene før tiden er ute',
                 'button': 'Trykk knappen for å starte spillet'
             },
             'sami': {
@@ -114,3 +114,10 @@
     </script>
 </body>
 </html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang') || 'en'; // Get the language from the URL or default to English
+    changeLanguage(lang); // Apply the language settings
+});
+</script>
