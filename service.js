@@ -5,6 +5,9 @@ const urlsToCache = [
     '/style.css',
     '/script.js',
     '/model/model.json',
+    '/win.html',
+    '/win.js',
+    '/game.html'
 ];
 
 self.addEventListener('install', event => {

@@ -19,7 +19,7 @@ h1 {
   background: rgba(0, 0, 0, 0.75);
   padding: 10px;
   border-radius: 5px;
-  font-size: 120px;
+  font-size: 160px;
   z-index: 1001; 
 }
 
@@ -45,7 +45,7 @@ button {
 
 #status {
   position: fixed;      /* Fixed position relative to the viewport */
-  top: 20px;               /* Align to the top of the viewport */
+  top: 200px;               /* Align to the top of the viewport */
   left: 50%;            /* Center horizontally */
   transform: translateX(-50%); /* Offset the element to truly center it horizontally */
   z-index: 1002;        /* High z-index to ensure it's on top */

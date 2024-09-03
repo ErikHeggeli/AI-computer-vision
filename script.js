@@ -205,8 +205,8 @@ function enableCam() {
             VIDEO.addEventListener('loadeddata', function() {
                 videoPlaying = true;
                 selectRandomObjects(); // Initialize the list of objects to find
-                startTimer(); // Start the timer
                 gameLoop(); // Start the game loop
+                startTimer(); // Start the timer
             });
         }).catch(function(error) {
             console.error('Camera access denied:', error);
@@ -262,6 +262,7 @@ function startTimer() {
 }
 
 function showTimeoutMessage() {
+    STATUS.innerHTML = "";
     MESSAGE.innerHTML = `${texts.timeUp}`;
     setTimeout(() => {
         const lang = localStorage.getItem('lastLanguageUsed') || 'en';
