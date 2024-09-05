@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <img src="img/emoji_logo.png" alt="Logo" class="logo">
     <title>EMOJI HUNT</title>
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -48,9 +47,9 @@
             cursor: pointer;
         }
         .logo {
-            width: 100px; /* Adjusted size */
+            width: 500px;
             height: auto;
-            vertical-align: middle; /* Align logo with text */
+            margin-bottom: 20px; /* Space between logo and title */
         }
         .play-button img {
             width: 350px;
@@ -61,16 +60,19 @@
             line-height: 60px;
             margin: 20px 0;
         }
-        .title-container {
-            display: flex; /* Use flexbox for layout */
-            justify-content: center; /* Center the content horizontally */
-            align-items: center; /* Center the content vertically */
+        #welcome {
+            font-size: 200px; /* Increased font size */
+            margin: 0; /* Remove default margins */
+            color: #5988df;
         }
     </style>
 </head>
 <body>
     <div class="center">
-        <h1 id="welcome">EMOJI HUNT</h1>
+        <div class="title-container">
+            <img src="img/emoji_logo.png" alt="Logo" class="logo">
+            <h1 id="welcome">EMOJI HUNT</h1>
+        </div>
         <img src="img/instructions.png" alt="Instructions" class="instruction-img">
         <div class="descriptions">
             <h1 id="description1" class="description">Find the object that looks like the emoji</h1>
@@ -88,6 +90,7 @@
         <button class="lang-button" onclick="changeLanguage('no')"><img src="img/language_no.png" alt="Norsk"></button>
         <button class="lang-button" onclick="changeLanguage('sami')"><img src="img/language_sa.png" alt="Sami"></button>
     </div>
+
 
     <script>
         const translations = {
