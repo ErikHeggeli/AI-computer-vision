@@ -3,9 +3,11 @@ AI exhibit - Computer vision / Object detection
 INSTRUCTIONS:
 ----
 Run:
+
 python/python3 -m http.server
 
 Access game from browser:
+
 localhost:8000
 
 
