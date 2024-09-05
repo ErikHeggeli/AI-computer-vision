@@ -25,24 +25,19 @@ const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = ["scallop",
   "watering can",
   "bomb",
-  "stapler",
-  "smoke detector",
   "dinosaur",
-  "sunglasses",
   "spoon",
   "foraminifera",
   "football boot",
-  "headset",
   "bottle",
-  "coat rack",
-  "tape",
   "teddy bear",
-  "ruler",
   "chainsaw",
   "computer mouse",
   "flag",
   "sword",
-  "ipad"];
+  "potato",
+  "banana",
+  "paint brush"];
 const status = document.getElementById('status');
 status.innerText = 'Loaded TensorFlow.js - version: ' + tf.version.tfjs;
 

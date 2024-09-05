@@ -1,59 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <img src="img/emoji_logo.png" alt="Logo" class="logo">
     <title>EMOJI HUNT</title>
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         html, body {
-            height: 100%; /* Make sure the body takes full viewport height */
+            height: 100%;
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column; /* Stack children vertically */
+            flex-direction: column;
         }
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #cacaca;
-            text-align: center; /* Center aligns everything in the body */
-            flex: 1; /* Allows body to expand and fill available space */
-            justify-content: space-between; /* Space between top and bottom contents */
+            text-align: center;
+            flex: 1;
+            justify-content: space-between;
         }
         .center {
-            flex-grow: 1; /* Allows this div to grow and push footer down */
+            flex-grow: 1;
         }
         .footer {
-            margin-bottom: 20px; /* Space from bottom */
+            margin-bottom: 20px;
         }
         .banner, .instruction-img {
-            width: 80%; /* Adjust size as needed */
+            width: 80%;
             height: auto;
-            margin: 20px auto; /* Centering the image */
+            margin: 20px auto;
         }
         .descriptions {
-            display: flex; /* Using flexbox to layout descriptions */
-            justify-content: space-around; /* Evenly spaces the flex items */
-            max-width: 80%; /* Same width as the instruction image */
-            margin: 0 auto; /* Centering the container */
+            display: flex;
+            justify-content: space-around;
+            max-width: 80%;
+            margin: 0 auto;
         }
         .description {
-            flex: 1; /* Each description takes equal space */
-            padding: 0 10px; /* Padding for text not to touch each other */
-            text-align: center; /* Center text within each description */
+            flex: 1;
+            padding: 0 10px;
+            text-align: center;
         }
         .lang-button, .play-button {
             border: none;
             background: none;
             cursor: pointer;
         }
+        .logo {
+            width: 100px; /* Adjusted size */
+            height: auto;
+            vertical-align: middle; /* Align logo with text */
+        }
         .play-button img {
             width: 350px;
             height: auto;
         }
         #button-text {
-            height: 120px; /* Adjust this value based on your needs */
-            line-height: 60px; /* This helps vertically center the text */
-            margin: 20px 0; /* Provide some spacing around the text */
+            height: 120px;
+            line-height: 60px;
+            margin: 20px 0;
+        }
+        .title-container {
+            display: flex; /* Use flexbox for layout */
+            justify-content: center; /* Center the content horizontally */
+            align-items: center; /* Center the content vertically */
         }
     </style>
 </head>
