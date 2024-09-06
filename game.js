@@ -134,9 +134,9 @@ const gameTranslations = {
             "computer mouse": "sáhpána", 
             "flag": "leavgga", 
             "sword": "miehka",  
-            "potato": "potet",
-            "banana": "banan",
-            "paint brush": "malekost"    
+            "potato": "buđeha",
+            "banana": "banána",
+            "paint brush": "málenguštta"    
         }
     }
 };

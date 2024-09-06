@@ -60,9 +60,9 @@ const gameTranslations = {
             "computer mouse": "Sáhpána", 
             "flag": "Leavgga",
             "sword": "Miehka", 
-            "potato": "Potet",
-            "banana": "Banan",
-            "paint brush": "Malekost"
+            "potato": "Buđeha",
+            "banana": "Banána",
+            "paint brush": "Málenguštta"
         }
     }
 };
