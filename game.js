@@ -81,7 +81,7 @@ const gameTranslations = {
             "foraminifera": "foraminifera", 
             "football boot":"fotball boot", 
             "bottle": "bottle", 
-            "teddy bear": "teddy Bear", 
+            "teddy bear": "teddy bear", 
             "chainsaw": "chainsaw", 
             "computer mouse": "computer Mouse", 
             "flag": "flag", 
@@ -116,10 +116,10 @@ const gameTranslations = {
         }
     },
     sami: {
-        find: "Etsi ",
-        congratulations: "Onnittelut! Löysit ",
-        timeUp: "Aika loppui!",
-        timer: "Ajastin",
+        find: "Oza ",
+        congratulations: "Ollu lihkku! Don gávdnet ",
+        timeUp: "Áigi nogai!",
+        timer: "Áigemihttár",
         objects: {
             "scallop": "heastaskálžžu",
             "watering can": "čáhcegátnu",  
