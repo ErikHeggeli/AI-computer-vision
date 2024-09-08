@@ -1,6 +1,6 @@
 const gameTranslations = {
     en: {
-        congratulations: "Congratulations! YOU WON!",
+        congratulations: "Congratulations! You found:",
         restart: "Press button to play again!",
         objects: {
             "scallop": "Scallop", 
@@ -22,7 +22,7 @@ const gameTranslations = {
         }
     },
     no: {
-        congratulations: "Gratulerer! DU VANT!",
+        congratulations: "Gratulerer! Du fant:",
         restart: "Trykk på knappen for å spille på nytt!",
         objects: {
             "scallop": "Kamskjell", 
@@ -44,7 +44,7 @@ const gameTranslations = {
         }
     },
     sami: {
-        congratulations: "Ollu lihkku! DON VUITET!",
+        congratulations: "Ollu lihkku! Don gávdnet:",
         restart: "Speallu álgá go coahkkalat boalu!",
         objects: {
             "scallop": "Heastaskálžžu",
