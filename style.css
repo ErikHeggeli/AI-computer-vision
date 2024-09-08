@@ -50,7 +50,7 @@ button {
   transform: translateX(-50%); /* Offset the element to truly center it horizontally */
   z-index: 1002;        /* High z-index to ensure it's on top */
   font-size: 120px;
-  color: rgb(56, 126, 50);
+  color: rgb(255, 255, 255);
   background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
   padding: 20px;        /* Some padding around the text */
   border-radius: 10px;  /* Rounded corners */

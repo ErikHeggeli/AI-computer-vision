@@ -296,8 +296,7 @@ function showTimeoutMessage() {
         updateBox(foundCount, false, EMOJI_MAP[CLASS_NAMES[currentIdx]]);
     }
 
-    STATUS.innerHTML = "";
-    MESSAGE.innerHTML = `${texts.timeUp}`;
+    STATUS.innerHTML = `${texts.timeUp}`;
     proceedToNextObject();
 }
 
@@ -311,44 +310,6 @@ function showWinScreen() {
     console.log("Storing found objects:", foundObjects);
     const lang = localStorage.getItem('lastLanguageUsed') || 'en';
     window.location.href = `win.html?lang=${lang}`; // Redirect to the win page
-}
-
-
-function clearMessage() {
-    MESSAGE.innerHTML = ""; // Clear the message content
-}
-
-function showMessage(message) {
-    MESSAGE.innerHTML = message; // Set new message content
-    MESSAGE.style.display = 'block'; // Ensure the element is visible
-}
-
-function gameLoop() {
-    if (videoPlaying && mobilenet && model) {
-        if (canCheck) {
-            tf.tidy(() => {
-                const videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
-                const resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH], true);
-                const features = mobilenet.predict(resizedTensorFrame.expandDims());
-                const prediction = model.predict(features).squeeze();
-                const highestIndex = prediction.argMax().arraySync();
-                const highestConfidence = prediction.arraySync()[highestIndex];
-                const className = CLASS_NAMES[highestIndex];
-                const translatedName = texts.objects[className];
-                const emojiSrc = EMOJI_MAP[className];
-
-                PREDICT.innerHTML = `Prediction: ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:24px;height:24px;"> with ${Math.floor(highestConfidence * 100)}% confidence`;
-
-                if (highestIndex === currentIdx && highestConfidence >= 0.99) {
-                    objectsFound.push(className);
-                    updateBox(foundCount, true, emojiSrc);
-                    proceedToNextObject();
-                    canCheck = false;
-                }
-            });
-        }
-    }
-    window.requestAnimationFrame(gameLoop);
 }
 
 
@@ -370,4 +331,34 @@ function updateBox(index, found, emojiSrc) {
     box.innerHTML = `<img src="${emojiSrc}" style="width:50px; height:50px;">`;
     box.className = found ? 'box found' : 'box not-found';
     box.innerHTML += found ? `<span class="checkmark">✓</span>` : `<span class="cross">&#x2716;</span>`;
+}
+
+
+function gameLoop() {
+    if (videoPlaying && mobilenet && model) {
+        if (canCheck) {
+            tf.tidy(() => {
+                const videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
+                const resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH], true);
+                const features = mobilenet.predict(resizedTensorFrame.expandDims());
+                const prediction = model.predict(features).squeeze();
+                const highestIndex = prediction.argMax().arraySync();
+                const highestConfidence = prediction.arraySync()[highestIndex];
+                const className = CLASS_NAMES[highestIndex];
+                const translatedName = texts.objects[className];
+                const emojiSrc = EMOJI_MAP[className];
+
+                PREDICT.innerHTML = `Prediction: ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:24px;height:24px;"> with ${Math.floor(highestConfidence * 100)}% confidence`;
+
+                if (highestIndex === currentIdx && highestConfidence >= 0.99) {
+                    STATUS.innerHTML = `${texts.congratulations} ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:120px;height:120px;">`;
+                    objectsFound.push(className);
+                    updateBox(foundCount, true, emojiSrc);
+                    proceedToNextObject();
+                    canCheck = false;
+                }
+            });
+        }
+    }
+    window.requestAnimationFrame(gameLoop);
 }
