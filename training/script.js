@@ -126,7 +126,7 @@ function enableCam() {
     const constraints = {
       video: true,
       width: 1080, 
-      height: 1920 
+      height: 1080 
     };
 
     // Activate the webcam stream.
