@@ -1,6 +1,6 @@
 const gameTranslations = {
     en: {
-        congratulations: "Congratulations! You found:",
+        congratulations: "Congratulations! You found ",
         restart: "Press button to play again!",
         objects: {
             "scallop": "Scallop", 
@@ -23,7 +23,7 @@ const gameTranslations = {
         }
     },
     no: {
-        congratulations: "Gratulerer! Du fant:",
+        congratulations: "Gratulerer! Du fant ",
         restart: "Trykk på knappen for å spille på nytt!",
         objects: {
             "scallop": "Kamskjell", 
@@ -46,7 +46,7 @@ const gameTranslations = {
         }
     },
     sami: {
-        congratulations: "Ollu lihkku! Don gávdnet:",
+        congratulations: "Ollu lihkku! Don gávdnet ",
         restart: "Speallu álgá go coahkkalat boalu!",
         objects: {
             "scallop": "Heastaskálžžu",
@@ -79,12 +79,27 @@ document.addEventListener('DOMContentLoaded', function() {
     foundObjects.forEach(obj => {
         const translatedName = translations[obj.name]; // Get the translated name
         const item = document.createElement('li');
-        item.innerHTML = `${translatedName} <img src="${obj.emoji}" alt="${translatedName}" style="width:100px; height:100px;">`;
+        item.innerHTML = `${translatedName} <img src="${obj.emoji}" alt="${translatedName}" style="width:100px; height: 100px;">`;
         listElement.appendChild(item);
     });
 
+    // Update the congratulations message to include the number of found objects
+    const totalObjects = 10; // Total number of objects to find
+    const foundCount = foundObjects.length; // Number of objects actually found
+    const congratulationsText = `${gameTranslations[savedLang].congratulations} ${foundCount} / ${totalObjects}`;
+    document.getElementById('congratulationsMessage').textContent = congratulationsText;
+
+    // Display fireworks if 5 or more objects were found
+    if (foundCount >= 5) {
+        const fireworksContainer = document.getElementById('fireworksContainer');
+        const fireworksImage = document.createElement('img');
+        fireworksImage.src = '/img/fireworks.webp';
+        fireworksImage.alt = 'Celebratory fireworks';
+        fireworksImage.style.width = '30%'; // Adjust size as needed
+        fireworksContainer.appendChild(fireworksImage);
+    }
+
     // Update other UI elements based on the language
-    document.getElementById('congratulationsMessage').textContent = gameTranslations[savedLang].congratulations;
     document.getElementById('restartMessage').textContent = gameTranslations[savedLang].restart;
 
     // Set up the play again button

@@ -9,6 +9,7 @@ body {
 h1 {
   font-style: italic;
   color: #FF6F00;
+  font-size: 70px;
 }
 
 #timer {
@@ -62,7 +63,7 @@ button {
   left: 50%;            /* Center horizontally */
   transform: translateX(-50%); /* Offset the element to truly center it horizontally */
   z-index: 1002;        /* High z-index to ensure it's on top */
-  font-size: 120px;
+  font-size: 100px;
   color: rgb(255, 255, 255);
   background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
   padding: 20px;        /* Some padding around the text */
@@ -109,7 +110,7 @@ body {
 
 #foundObjectsList li {
   margin: 10px;
-  font-size: 100px;
+  font-size: 80px;
   color: #3ff52e;
 }
 
@@ -125,7 +126,7 @@ button {
   left: 50%; /* Center it horizontally */
   transform: translateX(-50%); /* Offset the element to truly center it */
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   z-index: 1000; /* High z-index to ensure it's on top of the video */
   background-color: rgba(0, 0, 0, 0.5); /* Optional: for better visibility */

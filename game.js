@@ -34,7 +34,7 @@ let objectsToFind = [];
 let objectsFound = [];
 let foundCount = 0;
 let canCheck = true;
-
+let isProcessing = false;
 const EMOJI_MAP = {
   "scallop": "img/emoji/scallop.png", 
   "watering can": "img/emoji/watering-can.svg", 
@@ -289,7 +289,10 @@ function startTimer() {
         document.getElementById('timeLeft').textContent = timeLeft;
         if (timeLeft <= 0) {
             clearInterval(countdown);
-            showTimeoutMessage();
+            if (!isProcessing) {
+                isProcessing = true; // Set the flag
+                showTimeoutMessage();
+            }
         }
     }, 1000);
 
@@ -297,12 +300,16 @@ function startTimer() {
 }
 
 function showTimeoutMessage() {
+    canCheck = false;
     if (!objectsFound.includes(CLASS_NAMES[currentIdx])) {
         updateBox(foundCount, false, EMOJI_MAP[CLASS_NAMES[currentIdx]]);
     }
 
     STATUS.innerHTML = `${texts.timeUp}`;
-    proceedToNextObject();
+    setTimeout(() => {
+        proceedToNextObject();
+        isProcessing = false; // Reset the flag after processing
+    }, 2000);
 }
 
 function showWinScreen() {
@@ -320,14 +327,14 @@ function showWinScreen() {
 
 function proceedToNextObject() {
     foundCount++;
-    setTimeout(() => {
-        if (foundCount < totalObjects) {
+    if (foundCount < totalObjects) {
+        setTimeout(() => {
             selectNextObject();
-        } else {
-            showWinScreen();
-        }
-        canCheck = true; // Reset canCheck to allow new predictions
-    }, 3000);
+            isProcessing = false; 
+        }, 3000);
+    } else {
+        showWinScreen();
+    }
 }
 
 function updateBox(index, found, emojiSrc) {
@@ -341,7 +348,7 @@ function updateBox(index, found, emojiSrc) {
 
 function gameLoop() {
     if (videoPlaying && mobilenet && model) {
-        if (canCheck) {
+        if (canCheck && !isProcessing) {
             tf.tidy(() => {
                 const videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
                 const resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH], true);
@@ -356,11 +363,14 @@ function gameLoop() {
                 PREDICT.innerHTML = `Prediction: ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:24px;height:24px;"> with ${Math.floor(highestConfidence * 100)}% confidence`;
 
                 if (highestIndex === currentIdx && highestConfidence >= 0.99) {
+                    isProcessing = true; 
                     STATUS.innerHTML = `${texts.congratulations} ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:120px;height:120px;">`;
                     objectsFound.push(className);
                     updateBox(foundCount, true, emojiSrc);
-                    proceedToNextObject();
                     canCheck = false;
+                    isProcessing = true;
+                    proceedToNextObject();
+                    
                 }
             });
         }
