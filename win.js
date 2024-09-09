@@ -5,9 +5,9 @@ const gameTranslations = {
         objects: {
             "scallop": "Scallop", 
             "watering can": "Watering Can", 
-            "bomb": "Bomb", 
+            "cauliflower": "Cauliflower", 
             "dinosaur": "Dinosaur", 
-            "spoon": "Spoon", 
+            "carrot": "Carrot", 
             "foraminifera": "Foraminifera", 
             "football boot":"Fotball Boot", 
             "bottle": "Bottle", 
@@ -18,7 +18,8 @@ const gameTranslations = {
             "sword": "Sword", 
             "potato": "Potato",
             "banana": "Banana",
-            "paint brush": "Paint Brush" 
+            "paint brush": "Paint Brush",
+            "pepper": "Pepper" 
         }
     },
     no: {
@@ -27,9 +28,9 @@ const gameTranslations = {
         objects: {
             "scallop": "Kamskjell", 
             "watering can": "Vannkanne", 
-            "bomb": "Bombe", 
+            "cauliflower": "Blomkål", 
             "dinosaur": "Dinosaur", 
-            "spoon": "Skje", 
+            "carrot": "Gulrot", 
             "foraminifera": "Foraminifera", 
             "football boot":"Fotballsko", 
             "bottle": "Flaske", 
@@ -40,7 +41,8 @@ const gameTranslations = {
             "sword": "Sverd",
             "potato": "Potet",
             "banana": "Banan",
-            "paint brush": "Malekost"   
+            "paint brush": "Malekost",
+            "pepper": "Paprika"    
         }
     },
     sami: {
@@ -49,9 +51,9 @@ const gameTranslations = {
         objects: {
             "scallop": "Heastaskálžžu",
             "watering can": "Čáhcegátnu",  
-            "bomb": "Bombba",
+            "cauliflower": "Blomkål",
             "dinosaur": "Dinosaurusa",
-            "spoon": "Bastte", 
+            "carrot": "Gulrot", 
             "foraminifera": "Foraminifera",  
             "football boot": "Spabbačiekčanskuovaid",  
             "bottle": "Bohttala", 
@@ -62,7 +64,8 @@ const gameTranslations = {
             "sword": "Miehka", 
             "potato": "Buđeha",
             "banana": "Banána",
-            "paint brush": "Málenguštta"
+            "paint brush": "Málenguštta",
+            "pepper": "Paprika" 
         }
     }
 };

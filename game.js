@@ -8,9 +8,9 @@ const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const CLASS_NAMES = ["scallop",
     "watering can",
-    "bomb",
+    "cauliflower",
     "dinosaur",
-    "spoon",
+    "carrot",
     "foraminifera",
     "football boot",
     "bottle",
@@ -21,7 +21,8 @@ const CLASS_NAMES = ["scallop",
     "sword",
     "potato",
     "banana",
-    "paint brush"];
+    "paint brush",
+    "pepper"];
 console.log(CLASS_NAMES.length)
 const TIMELIMIT = 15000;
 let model, mobilenet;
@@ -37,9 +38,9 @@ let canCheck = true;
 const EMOJI_MAP = {
   "scallop": "img/emoji/scallop.png", 
   "watering can": "img/emoji/watering-can.svg", 
-  "bomb": "img/emoji/bomb.svg",  
+  "cauliflower": "img/emoji/cauliflower.png",  
   "dinosaur": "img/emoji/t-rex.svg", 
-  "spoon": "img/emoji/spoon.svg", 
+  "carrot": "img/emoji/carrot.png", 
   "foraminifera": "img/emoji/foraminifera-white.png", 
   "football boot": "img/emoji/football-boot.png", 
   "bottle": "img/emoji/cola.svg", 
@@ -50,7 +51,8 @@ const EMOJI_MAP = {
   "sword": "img/emoji/sword.svg", 
   "potato": "img/emoji/potato.svg",
   "banana": "img/emoji/banana.png", 
-  "paint brush": "img/emoji/paint-brush.png"
+  "paint brush": "img/emoji/paint-brush.png",
+  "pepper": "img/emoji/pepper.png"
 };
 
 function selectRandomObjects() {
@@ -77,9 +79,9 @@ const gameTranslations = {
         objects: {
             "scallop": "scallop", 
             "watering can": "watering can", 
-            "bomb": "bomb", 
+            "cauliflower": "cauliflower", 
             "dinosaur": "dinosaur", 
-            "spoon": "spoon", 
+            "carrot": "carrot", 
             "foraminifera": "foraminifera", 
             "football boot":"fotball boot", 
             "bottle": "bottle", 
@@ -90,7 +92,8 @@ const gameTranslations = {
             "sword": "sword",
             "potato": "potato",
             "banana": "banana",
-            "paint brush": "paint brush" 
+            "paint brush": "paint brush",
+            "pepper": "pepper" 
         }
     },
     no: {
@@ -101,9 +104,9 @@ const gameTranslations = {
         objects: {
             "scallop": "kamskjell", 
             "watering can": "vannkanne", 
-            "bomb": "bombe", 
+            "cauliflower": "blomkål", 
             "dinosaur": "dinosaur",  
-            "spoon": "skje", 
+            "carrot": "gulrot", 
             "foraminifera": "foraminifera", 
             "football boot":"fotballsko", 
             "bottle": "flaske", 
@@ -114,7 +117,8 @@ const gameTranslations = {
             "sword": "sverd",
             "potato": "potet",
             "banana": "banan",
-            "paint brush": "malekost"  
+            "paint brush": "malekost",
+            "pepper": "paprika"  
         }
     },
     sami: {
@@ -125,9 +129,9 @@ const gameTranslations = {
         objects: {
             "scallop": "heastaskálžžu",
             "watering can": "čáhcegátnu",  
-            "bomb": "bombba", 
+            "cauliflower": "blomkål", 
             "dinosaur": "dinosaurusa",
-            "spoon": "bastte", 
+            "carrot": "gulrot", 
             "foraminifera": "foraminifera",  
             "football boot": "spabbačiekčanskuovaid",  
             "bottle": "bohttala", 
@@ -138,7 +142,8 @@ const gameTranslations = {
             "sword": "miehka",  
             "potato": "buđeha",
             "banana": "banána",
-            "paint brush": "málenguštta"    
+            "paint brush": "málenguštta",
+            "pepper": "paprika"    
         }
     }
 };

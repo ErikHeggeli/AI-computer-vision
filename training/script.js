@@ -24,9 +24,9 @@ const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
 const CLASS_NAMES = ["scallop",
   "watering can",
-  "bomb",
+  "cauliflower",
   "dinosaur",
-  "spoon",
+  "carrot",
   "foraminifera",
   "football boot",
   "bottle",
@@ -37,7 +37,8 @@ const CLASS_NAMES = ["scallop",
   "sword",
   "potato",
   "banana",
-  "paint brush"];
+  "paint brush",
+  "pepper"];
 const status = document.getElementById('status');
 status.innerText = 'Loaded TensorFlow.js - version: ' + tf.version.tfjs;
 
@@ -126,7 +127,7 @@ function enableCam() {
     const constraints = {
       video: true,
       width: 1080, 
-      height: 1080 
+      height: 1920 
     };
 
     // Activate the webcam stream.
