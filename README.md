@@ -2,8 +2,8 @@ AI exhibit - Computer vision / Object detection
 
 INSTRUCTIONS:
 ----
-Run:
-
+How to run:
+CD into folder and type:
 python/python3 -m http.server
 
 Access game from browser:
