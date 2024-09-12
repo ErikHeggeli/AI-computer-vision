@@ -131,7 +131,7 @@ const gameTranslations = {
             "watering can": "čáhcegátnu",  
             "cauliflower": "blomkål", 
             "dinosaur": "dinosaurusa",
-            "carrot": "gulrot", 
+            "carrot": "rušppi", 
             "foraminifera": "foraminifera",  
             "football boot": "spabbačiekčanskuovaid",  
             "bottle": "bohttala", 
