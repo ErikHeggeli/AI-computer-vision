@@ -93,8 +93,9 @@ button {
 }
 
 .emoji-image {
-  width: 10vw;  /* 10% of the viewport width */
-  height: 10vw; /* 10% of the viewport height */
+  width: 200px; /* Adjust based on your design */
+  height: 200px; /* Adjust based on your design */
+  vertical-align: middle; /* Aligns the image vertically with the text */
 }
 
 body {
@@ -182,4 +183,11 @@ button {
 .cross {
   color: red;
   font-size: 24px;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Adjust the space between the text and the image */
 }

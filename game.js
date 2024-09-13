@@ -23,7 +23,7 @@ const CLASS_NAMES = ["scallop",
     "banana",
     "paint brush",
     "pepper"];
-console.log(CLASS_NAMES.length)
+
 const TIMELIMIT = 15000;
 let model, mobilenet;
 let videoPlaying = false;
@@ -272,7 +272,7 @@ function updateObjectUI() {
     const boxContainer = document.getElementById('objectBoxes');
     const box = boxContainer.children[foundCount]; // Get the box corresponding to the current count
     box.innerHTML = `<img src="${emojiSrc}" style="width:50px; height:50px;">`; // Place emoji in the box
-    STATUS.innerHTML = `${texts.find} <img src="${emojiSrc}" alt="${translatedName}" class="emoji-image">`;
+    STATUS.innerHTML = `<div class="status-content">${texts.find}<img src="${emojiSrc}" alt="${translatedName}" class="emoji-image"></div>`;
     MESSAGE.innerHTML = "";
 }
 
@@ -309,7 +309,7 @@ function showTimeoutMessage() {
     setTimeout(() => {
         proceedToNextObject();
         isProcessing = false; // Reset the flag after processing
-    }, 2000);
+    }, 1000);
 }
 
 function showWinScreen() {
@@ -319,7 +319,6 @@ function showWinScreen() {
         emoji: EMOJI_MAP[obj]
     }));
     localStorage.setItem('foundObjects', JSON.stringify(foundObjects));
-    console.log("Storing found objects:", foundObjects);
     const lang = localStorage.getItem('lastLanguageUsed') || 'en';
     window.location.href = `win.html?lang=${lang}`; // Redirect to the win page
 }
@@ -331,7 +330,7 @@ function proceedToNextObject() {
         setTimeout(() => {
             selectNextObject();
             isProcessing = false; 
-        }, 3000);
+        }, 1000);
     } else {
         showWinScreen();
     }
@@ -360,7 +359,8 @@ function gameLoop() {
                 const translatedName = texts.objects[className];
                 const emojiSrc = EMOJI_MAP[className];
 
-                PREDICT.innerHTML = `Prediction: ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:24px;height:24px;"> with ${Math.floor(highestConfidence * 100)}% confidence`;
+                // Remove comment to view live prediction of objects
+                // PREDICT.innerHTML = `Prediction: ${translatedName} <img src="${emojiSrc}" alt="${translatedName}" style="width:24px;height:24px;"> with ${Math.floor(highestConfidence * 100)}% confidence`;
 
                 if (highestIndex === currentIdx && highestConfidence >= 0.99) {
                     isProcessing = true; 
