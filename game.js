@@ -129,7 +129,7 @@ const gameTranslations = {
         objects: {
             "scallop": "heastaskálžžu",
             "watering can": "čáhcegátnu",  
-            "cauliflower": "blomkål", 
+            "cauliflower": "diehppegála", 
             "dinosaur": "dinosaurusa",
             "carrot": "rušppi", 
             "foraminifera": "foraminifera",  
@@ -272,7 +272,11 @@ function updateObjectUI() {
     const boxContainer = document.getElementById('objectBoxes');
     const box = boxContainer.children[foundCount]; // Get the box corresponding to the current count
     box.innerHTML = `<img src="${emojiSrc}" style="width:50px; height:50px;">`; // Place emoji in the box
-    STATUS.innerHTML = `<div class="status-content">${texts.find}<img src="${emojiSrc}" alt="${translatedName}" class="emoji-image"></div>`;
+    let findText = texts.find;
+    if (targetName === "cauliflower" && localStorage.getItem('lastLanguageUsed') === 'sami') {
+        findText = "Oze ";
+    }
+    STATUS.innerHTML = `<div class="status-content">${findText}<img src="${emojiSrc}" alt="${translatedName}" class="emoji-image"></div>`;
     MESSAGE.innerHTML = "";
 }
 
@@ -330,7 +334,7 @@ function proceedToNextObject() {
         setTimeout(() => {
             selectNextObject();
             isProcessing = false; 
-        }, 1000);
+        }, 3000);
     } else {
         showWinScreen();
     }

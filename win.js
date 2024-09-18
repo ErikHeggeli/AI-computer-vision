@@ -51,7 +51,7 @@ const gameTranslations = {
         objects: {
             "scallop": "Heastaskálžžu",
             "watering can": "Čáhcegátnu",  
-            "cauliflower": "Blomkål",
+            "cauliflower": "Diehppegála",
             "dinosaur": "Dinosaurusa",
             "carrot": "Rušppi", 
             "foraminifera": "Foraminifera",  
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
     foundObjects.forEach(obj => {
         const translatedName = translations[obj.name]; // Get the translated name
         const item = document.createElement('li');
-        item.innerHTML = `${translatedName} <img src="${obj.emoji}" alt="${translatedName}" style="width:100px; height: 100px;">`;
+        item.innerHTML = `${translatedName} <img src="${obj.emoji}" alt="${translatedName}" style="width:75px; height: 75px;">`;
         listElement.appendChild(item);
     });
 
