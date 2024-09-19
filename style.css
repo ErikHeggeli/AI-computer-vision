@@ -92,6 +92,18 @@ button {
   margin-top: 20px;
 }
 
+#playAgainContainer {
+  position: fixed; /* Fixed position relative to the viewport */
+  bottom: 0; /* Align to the bottom of the viewport */
+  left: 0; /* Align to the left of the viewport */
+  width: 100%; /* Full width to span across the screen */
+  text-align: center; /* Center the content */
+  padding: 20px 0; /* Padding to ensure content doesn't touch the edges */
+  background-color: rgba(0, 0, 0, 0.7); /* Optional: for better visibility */
+  color: white; /* Text color */
+  z-index: 1000; /* High z-index to ensure it's on top of other content */
+}
+
 .emoji-image {
   width: 200px; /* Adjust based on your design */
   height: 200px; /* Adjust based on your design */
@@ -103,17 +115,21 @@ body {
   text-align: center;
   padding: 20px;
 }
-
 #foundObjectsList {
-  list-style-type: none;
-  padding: 0;
+  list-style: none; /* Removes default list styling */
+  display: flex; /* Enables flexbox layout */
+  flex-wrap: wrap; /* Allows items to wrap onto the next line */
+  justify-content: center; /* Centers items horizontally */
+  padding: 0; /* Removes default padding */
+}
+#foundObjectsList li {
+  font-size: 40px;
+  color: #3ff52e;
+  margin: 20px; /* Adds space between items */
+  flex: 0 1 14%; /* Flex-grow, flex-shrink, and flex-basis */
+  /* Adjust flex-basis as needed to fit 5 items per row, considering margins */
 }
 
-#foundObjectsList li {
-  margin: 10px;
-  font-size: 60px;
-  color: #3ff52e;
-}
 
 button {
   padding: 10px 20px;
