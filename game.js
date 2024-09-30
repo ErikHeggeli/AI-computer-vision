@@ -149,7 +149,7 @@ const gameTranslations = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const lang = new URLSearchParams(window.location.search).get('lang') || 'en';
+    const lang = new URLSearchParams(window.location.search).get('lang') || 'no';
     localStorage.setItem('lastLanguageUsed', lang);
     initializeBoxes();
     updateGameLanguage(lang);
@@ -323,7 +323,7 @@ function showWinScreen() {
         emoji: EMOJI_MAP[obj]
     }));
     localStorage.setItem('foundObjects', JSON.stringify(foundObjects));
-    const lang = localStorage.getItem('lastLanguageUsed') || 'en';
+    const lang = localStorage.getItem('lastLanguageUsed') || 'no';
     window.location.href = `win.html?lang=${lang}`; // Redirect to the win page
 }
 

@@ -73,7 +73,7 @@ const gameTranslations = {
 document.addEventListener('DOMContentLoaded', function() {
     const foundObjects = JSON.parse(localStorage.getItem('foundObjects') || '[]');
     const listElement = document.getElementById('foundObjectsList');
-    const savedLang = localStorage.getItem('lastLanguageUsed') || 'en'; // Retrieve the language or default to English
+    const savedLang = localStorage.getItem('lastLanguageUsed') || 'no'; // Retrieve the language or default to Norwegian
     const translations = gameTranslations[savedLang].objects; // Get the translations for the current language
     console.log(foundObjects)
     foundObjects.forEach(obj => {
@@ -99,15 +99,16 @@ document.addEventListener('DOMContentLoaded', function() {
     setupPlayAgainButton();
     // Redirect to index.html after 30 seconds of inactivity
     setTimeout(() => {
-        window.location.href = 'index.html';
+        const lang = localStorage.getItem('lastLanguageUsed') || 'no';
+        window.location.href = `index.html?lang=${lang}`;
     }, 30000);
 });
 function setupPlayAgainButton() {
-    const lang = localStorage.getItem('lastLanguageUsed') || 'en'; // Retrieve the last used language
+    const lang = localStorage.getItem('lastLanguageUsed') || 'no'; // Retrieve the last used language
     const playLink = document.getElementById('play-link');
     playLink.href = `game.html?lang=${lang}`; // Set the href to include the language
 }
 function playAgain() {
-    const lang = localStorage.getItem('lastLanguageUsed') || 'en'; // Optionally, ensure language consistency
+    const lang = localStorage.getItem('lastLanguageUsed') || 'no'; // Optionally, ensure language consistency
     window.location.href = `game.html?lang=${lang}`; // Redirect to start a new game
 }
