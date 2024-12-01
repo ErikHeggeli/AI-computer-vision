@@ -2,8 +2,43 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevents scrollbars from appearing */
-  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Push it behind all other content */
+  background-image: url('img/T_machineL.webp');
+  background-size: 1024px 1024px, 200% 200%; /* Set sizes for image and glow */
+  background-repeat: repeat; /* Ensure seamless tiling */
+  background-size: cover; /* Adjust as needed to fit the viewport */
   font-family: Helvetica, Arial, sans-serif;
+  background-blend-mode: overlay; /* Blend glow with the image */
+  animation: scroll-bg 40s linear infinite, glow-effect 3s ease-in-out infinite alternate; /* Apply animations */
+}
+
+/* Keyframes for scrolling the background */
+@keyframes scroll-bg {
+  0% {
+      background-position: 0 0, 50% 50%;
+  }
+  100% {
+      background-position: -1024px -1024px, 50% 50%;
+  }
+}
+@keyframes glow-effect {
+  0% {
+      background-size: 1024px 1024px, 200% 200%;
+      opacity: 1;
+  }
+  25% {
+      background-size: 1024px 1024px, 220% 220%; /* Larger glowing area */
+      opacity: 0.98;
+  }
+  100% {
+      background-size: 1024px 1024px, 200% 200%;
+      opacity: 0.95;
+  }
 }
 
 h1 {
@@ -19,9 +54,9 @@ h1 {
   display: flex;
   align-items: center; /* Align items vertically */
   white-space: nowrap; /* Prevent wrapping */
-  font-size: 160px;
-  color: rgb(255, 255, 255);
-  background-color: rgba(0, 0, 0, 0.8); /* Optional: for better visibility */
+  font-size: 48px;
+  color: rgb(161, 228, 240);
+  background-color: rgba(0, 0, 0, 0); /* Optional: for better visibility */
   z-index: 1001;
 }
 #timeLeft {
@@ -37,6 +72,29 @@ h1 {
   height: 50px; /* Adjust size as needed */
   z-index: 1001;
 }
+
+#circle-timer {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+#circle-timer svg {
+  transform: rotate(-90deg); /* Rotate to start at the top */
+  transform-origin: 50% 50%;
+}
+
+#time-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
 video {
   position: fixed;
   top: 0;
@@ -65,7 +123,7 @@ button {
   z-index: 1002;        /* High z-index to ensure it's on top */
   font-size: 100px;
   color: rgb(255, 255, 255);
-  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  background: rgba(1, 43, 25, 0.8); /* Semi-transparent black background */
   padding: 20px;        /* Some padding around the text */
   border-radius: 10px;  /* Rounded corners */
   text-align: center;   /* Center the text inside the element */

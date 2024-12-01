@@ -87,7 +87,7 @@ const gameTranslations = {
             "bottle": "bottle", 
             "teddy bear": "teddy bear", 
             "chainsaw": "chainsaw", 
-            "computer mouse": "computer Mouse", 
+            "computer mouse": "computer mouse", 
             "flag": "flag", 
             "sword": "sword",
             "potato": "potato",
@@ -285,23 +285,47 @@ function startTimer() {
     clearTimeout(timer);
     clearInterval(countdown);
 
-    let timeLeft = 15;
-    document.getElementById('timeLeft').textContent = timeLeft;
+    const radius = 70; // Radius of the circle
+    const fullCircle = 2 * Math.PI * radius; // Circumference of the circle (2πr)
+    const duration = 15; // Timer duration in seconds
+    let timeLeft = duration;
+
+    const circle = document.getElementById('timer-circle');
+    const timeDisplay = document.getElementById('time-display');
+
+    // Reset circle and text
+    circle.style.strokeDasharray = fullCircle;
+    circle.style.strokeDashoffset = fullCircle;
+    timeDisplay.textContent = timeLeft;
+
+    const intervalTime = 1000; // 1 second
+    const step = fullCircle / duration; // Decrement for each second
 
     countdown = setInterval(() => {
+        // Decrement time left
         timeLeft--;
-        document.getElementById('timeLeft').textContent = timeLeft;
+
+        // Update circle stroke and text display
+        const newOffset = step * timeLeft; // Calculate new offset
+        circle.style.strokeDashoffset = newOffset;
+        timeDisplay.textContent = timeLeft;
+
+        // Timer ends
         if (timeLeft <= 0) {
             clearInterval(countdown);
+            circle.style.strokeDashoffset = 0; // Ensure circle fully fills
+            timeDisplay.textContent = "0"; // Show "0" when timer ends
+
             if (!isProcessing) {
-                isProcessing = true; // Set the flag
-                showTimeoutMessage();
+                isProcessing = true; // Prevent multiple triggers
+                showTimeoutMessage(); // Handle timeout
             }
         }
-    }, 1000);
+    }, intervalTime);
 
     canCheck = true;
 }
+
 
 function showTimeoutMessage() {
     canCheck = false;
