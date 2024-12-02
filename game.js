@@ -41,7 +41,7 @@ const EMOJI_MAP = {
   "cauliflower": "img/emoji/cauliflower.png",  
   "dinosaur": "img/emoji/t-rex.svg", 
   "carrot": "img/emoji/carrot.png", 
-  "foraminifera": "img/emoji/foraminifera-white.png", 
+  "foraminifera": "img/emoji/foraminifera.webp", 
   "football boot": "img/emoji/football-boot.png", 
   "bottle": "img/emoji/cola.svg", 
   "teddy bear": "img/emoji/teddy-bear.svg", 
