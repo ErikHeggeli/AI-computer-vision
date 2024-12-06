@@ -7,9 +7,36 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+
+
+
     <div id="timer">
-        <span id="timeLeft">15</span> <!-- Timer text -->
-        <img src="img/clock.png" alt="Timer" id="timerImage" style="width:150px; height:150px;"> <!-- Clock image -->
+        <div id="circle-timer">
+            <svg width="150" height="150">
+                <circle
+                    cx="75"
+                    cy="75"
+                    r="70"
+                    stroke= "#29D3B0"
+                    stroke-width="3"
+                ></circle>
+                <circle
+                    cx="75"
+                    cy="75"
+                    r="70"
+                    stroke= "white"
+                    stroke-width="10"
+                    fill= "rgb(0,0,0)"
+                    stroke-dasharray="439.82"
+                    stroke-dashoffset="439.82"
+                    id="timer-circle"
+                ></circle>
+            </svg>
+            <div id="time-display">15</div>
+        </div>
+    </div>
+    
+
     </div>
     <p id="status">Loading...</p>
     <div id="objectBoxes" class="object-boxes"></div>
