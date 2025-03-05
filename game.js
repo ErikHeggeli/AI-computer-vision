@@ -3,7 +3,7 @@ const STATUS = document.getElementById('status');
 const MESSAGE = document.getElementById('message');
 const PREDICT = document.getElementById('predict');
 const modelUrl = '/model/model.json';
-const totalObjects = 10
+const totalObjects = 5
 const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const CLASS_NAMES = ["scallop",
@@ -192,7 +192,7 @@ function updateObjectBoxes() {
         const index = CLASS_NAMES.indexOf(obj);
         if (index !== -1 && index < boxes.length) {
             boxes[index].className = 'box found';
-            boxes[index].innerHTML = `<img src="${EMOJI_MAP[obj]}" style="width:50px; height:50px;"><span class="checkmark">✓</span>`;
+            boxes[index].innerHTML = `<img src="${EMOJI_MAP[obj]}" style="width:100px; height:100px;"><span class="checkmark">✓</span>`;
         }
     });
 
@@ -201,7 +201,7 @@ function updateObjectBoxes() {
         const index = CLASS_NAMES.indexOf(obj);
         if (index !== -1 && index < boxes.length) {
             boxes[index].className = 'box not-found';
-            boxes[index].innerHTML = `<img src="${EMOJI_MAP[obj]}" style="width:50px; height:50px;"><span class="cross">&#x2716;</span>`;
+            boxes[index].innerHTML = `<img src="${EMOJI_MAP[obj]}" style="width:100px; height:100px;"><span class="cross">&#x2716;</span>`;
         }
     });
 }
@@ -271,7 +271,7 @@ function updateObjectUI() {
     const emojiSrc = EMOJI_MAP[targetName];
     const boxContainer = document.getElementById('objectBoxes');
     const box = boxContainer.children[foundCount]; // Get the box corresponding to the current count
-    box.innerHTML = `<img src="${emojiSrc}" style="width:50px; height:50px;">`; // Place emoji in the box
+    box.innerHTML = `<img src="${emojiSrc}" style="width:100px; height:100px;">`; // Place emoji in the box
     let findText = texts.find;
     if (targetName === "cauliflower" && localStorage.getItem('lastLanguageUsed') === 'sami') {
         findText = "Oze ";
@@ -367,7 +367,7 @@ function proceedToNextObject() {
 function updateBox(index, found, emojiSrc) {
     const boxContainer = document.getElementById('objectBoxes');
     const box = boxContainer.children[index];
-    box.innerHTML = `<img src="${emojiSrc}" style="width:50px; height:50px;">`;
+    box.innerHTML = `<img src="${emojiSrc}" style="width:100px; height:100px;">`;
     box.className = found ? 'box found' : 'box not-found';
     box.innerHTML += found ? `<span class="checkmark">✓</span>` : `<span class="cross">&#x2716;</span>`;
 }

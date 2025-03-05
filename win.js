@@ -1,6 +1,7 @@
 const gameTranslations = {
     en: {
         congratulations: "Congratulations! You found ",
+        no_objects: "You found ",
         restart: "Press button to play again!",
         objects: {
             "scallop": "Scallop", 
@@ -24,6 +25,7 @@ const gameTranslations = {
     },
     no: {
         congratulations: "Gratulerer! Du fant ",
+        no_objects: "Du fant ",
         restart: "Trykk på knappen for å spille på nytt!",
         objects: {
             "scallop": "Kamskjell", 
@@ -47,6 +49,7 @@ const gameTranslations = {
     },
     sami: {
         congratulations: "Ollu lihkku! Don gávdnet ",
+        no_objects: "Don gávdnet ",
         restart: "Speallu álgá go coahkkalat boalu!",
         objects: {
             "scallop": "Heastaskálžžu",
@@ -76,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedLang = localStorage.getItem('lastLanguageUsed') || 'no'; // Retrieve the language or default to Norwegian
     const translations = gameTranslations[savedLang].objects; // Get the translations for the current language
     console.log(foundObjects)
+    const foundCount = foundObjects.length; // Number of objects actually found
+    const messageKey = foundCount > 0 ? 'congratulations' : 'no_objects';
     foundObjects.forEach(obj => {
         const translatedName = translations[obj.name]; // Get the translated name
         const item = document.createElement('li');
@@ -83,15 +88,14 @@ document.addEventListener('DOMContentLoaded', function() {
         listElement.appendChild(item);
     });
     // Update the congratulations message to include the number of found objects
-    const totalObjects = 10; // Total number of objects to find
-    const foundCount = foundObjects.length; // Number of objects actually found
-    const congratulationsText = `${gameTranslations[savedLang].congratulations} ${foundCount} / ${totalObjects}`;
+    const totalObjects = 5; // Total number of objects to find
+    const congratulationsText = `${gameTranslations[savedLang][messageKey]} ${foundCount} / ${totalObjects}`;
     document.getElementById('congratulationsMessage').textContent = congratulationsText;
 
     const scoreImageContainer = document.getElementById('scoreContainer');
     const scoreImage = document.createElement('img');
-    scoreImage.src = `/img/win/level${foundCount}.jpg`;
-    scoreImage.alt = `Score ${foundCount} image`;
+    scoreImage.src = `/img/win/level${foundCount*2}.jpg`;
+    scoreImage.alt = `Score ${foundCount*2} image`;
     scoreImage.style.width = '60%'; 
     scoreImageContainer.appendChild(scoreImage);
     // Update other UI elements based on the language
